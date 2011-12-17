@@ -29,71 +29,71 @@
     // BOOL isRtmpdumpOk = [self checkRtmpdump];
     
     
-        lv = [[NSString alloc]initWithString: lvNum];
-        isOpen = NO;
-        self.keepString = @"";
-        [self getUserSession:browser];
-        
-        [self getXml];//,@"didn't get xml.");
-        [self getComment];//,@"didn't get comment.");
-        [self getMovie];//,@"didn't get movie.");
-        //
-        //[delegate stopIndicator]; 
-   
-       
+    lv = [[NSString alloc]initWithString: lvNum];
+    isOpen = NO;
+    self.keepString = @"";
+    [self getUserSession:browser];
+    
+    [self getXml];//,@"didn't get xml.");
+    [self getComment];//,@"didn't get comment.");
+    [self getMovie];//,@"didn't get movie.");
+    //
+    //[delegate stopIndicator]; 
+    
+    
     return @"ok";
 }
 /*
-- (BOOL)checkRtmpdump{
-    
-    NSString *a_home_dir = NSHomeDirectory();
-    taskWhich = [[NSTask alloc]init];
-    pipeWhich = [[NSPipe alloc]init];
-    NSPipe *pipeError = [[NSPipe alloc]init];
-    [taskWhich setStandardOutput:pipeWhich];
-    [taskWhich setStandardError:pipeError];
-    [taskWhich setLaunchPath: @"/usr/bin/which"];
-    
-    [taskWhich setCurrentDirectoryPath:a_home_dir];
-    
-    
-    [taskWhich setEnvironment:[NSDictionary dictionaryWithObject:@"/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/X11/bin" forKey:@"PATH"]];
-    //[taskWhich setArguments: [NSArray arrayWithObjects: @"-c", @"/bin/ls", nil]];
-    [taskWhich setArguments: [NSArray arrayWithObjects: @"rtmpdump", nil]];
-    
-    [taskWhich launch];
-    
-    // [taskWhich waitUntilExit];
-    
-    NSData *dataOutput = [[pipeWhich fileHandleForReading] readDataToEndOfFile];
-    
-    //fh   = [pipe fileHandleForReading];
-    //result_data = [fh availableData];
-    NSString *result_str  = [[[NSString alloc]initWithData:dataOutput encoding:NSUTF8StringEncoding]autorelease];
-    NSLog(@"result_str : %@",result_str);
-    
-    NSData*   dataErr = [[pipeError fileHandleForReading ] readDataToEndOfFile];
-    NSString* strErr  = [[NSString alloc] initWithData:dataErr encoding:NSUTF8StringEncoding];
-    NSLog(@"std err --\n%@",strErr);
-    [strErr release];
-    [pipeError release];
-    
-    
-    //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readDataWhich:) name:NSFileHandleReadCompletionNotification object:nil];
-    // [[pipeWhich fileHandleForReading] readInBackgroundAndNotify];
-    
-    if(![result_str isEqualToString:@""]){
-        self.rtmpdumpPath = result_str;
-        self.rtmpdumpPath = [self.rtmpdumpPath stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        NSLog(@"rtmpDumpPath : %@", self.rtmpdumpPath);
-        return YES;
-    }else{
-        return NO;
-    }
-    
-    
-}
-*/
+ - (BOOL)checkRtmpdump{
+ 
+ NSString *a_home_dir = NSHomeDirectory();
+ taskWhich = [[NSTask alloc]init];
+ pipeWhich = [[NSPipe alloc]init];
+ NSPipe *pipeError = [[NSPipe alloc]init];
+ [taskWhich setStandardOutput:pipeWhich];
+ [taskWhich setStandardError:pipeError];
+ [taskWhich setLaunchPath: @"/usr/bin/which"];
+ 
+ [taskWhich setCurrentDirectoryPath:a_home_dir];
+ 
+ 
+ [taskWhich setEnvironment:[NSDictionary dictionaryWithObject:@"/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/local/git/bin:/usr/X11/bin" forKey:@"PATH"]];
+ //[taskWhich setArguments: [NSArray arrayWithObjects: @"-c", @"/bin/ls", nil]];
+ [taskWhich setArguments: [NSArray arrayWithObjects: @"rtmpdump", nil]];
+ 
+ [taskWhich launch];
+ 
+ // [taskWhich waitUntilExit];
+ 
+ NSData *dataOutput = [[pipeWhich fileHandleForReading] readDataToEndOfFile];
+ 
+ //fh   = [pipe fileHandleForReading];
+ //result_data = [fh availableData];
+ NSString *result_str  = [[[NSString alloc]initWithData:dataOutput encoding:NSUTF8StringEncoding]autorelease];
+ NSLog(@"result_str : %@",result_str);
+ 
+ NSData*   dataErr = [[pipeError fileHandleForReading ] readDataToEndOfFile];
+ NSString* strErr  = [[NSString alloc] initWithData:dataErr encoding:NSUTF8StringEncoding];
+ NSLog(@"std err --\n%@",strErr);
+ [strErr release];
+ [pipeError release];
+ 
+ 
+ //  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(readDataWhich:) name:NSFileHandleReadCompletionNotification object:nil];
+ // [[pipeWhich fileHandleForReading] readInBackgroundAndNotify];
+ 
+ if(![result_str isEqualToString:@""]){
+ self.rtmpdumpPath = result_str;
+ self.rtmpdumpPath = [self.rtmpdumpPath stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+ NSLog(@"rtmpDumpPath : %@", self.rtmpdumpPath);
+ return YES;
+ }else{
+ return NO;
+ }
+ 
+ 
+ }
+ */
 - (void)readDataWhich:(NSNotification *)notification
 {
 	NSData *data = [[notification userInfo] valueForKey:NSFileHandleNotificationDataItem];
@@ -132,7 +132,7 @@
 
 -(BOOL)getXml{
     NSString *urlString = [NSString stringWithFormat:@"http://watch.live.nicovideo.jp/api/getplayerstatus?v=%@", lv];
-
+    
     NSURL *urlLogin = [NSURL URLWithString:urlString];
     
     NSMutableURLRequest *urlRequestLogin = [[NSMutableURLRequest alloc]initWithURL:urlLogin];
@@ -226,12 +226,7 @@
         
         [inputStream open];
 		[outputStream open];
-        /*
-         NSString *empty = @"<xml>";
-         NSString *path = @"/Users/ogawakotaro/tempComment.xml";
-         NSError *error;
-         [empty writeToFile:path atomically:YES encoding:NSUTF8StringEncoding error:&error];
-         */
+        
         keepString = @"";
         commentArray = [[NSMutableArray alloc]init];
         vposArray = [[NSMutableArray alloc]init];
@@ -267,10 +262,10 @@
         [URL addObject:(NSMutableString *)[[matchURL objectAtIndex:i] stringByReplacingOccurrencesOfString:@",/" withString:@"/mp4:"] ];
     }
     NSLog(@"URL : %@", URL);  
-   
+    
     //TICKET = [NSString stringWithFormat:@"S:%@",[xml stringByMatching:TICKETRegex capture:1L]];//S:を含む
     self.TICKET = [xml stringByMatching:TICKETRegex capture:1L];
-     NSLog(@"TICKET : %@", self.TICKET); 
+    NSLog(@"TICKET : %@", self.TICKET); 
     //NSPipe       *pipe = [NSPipe pipe];
 	//NSTask       *task = [[NSTask alloc] init];
 	/*
@@ -337,20 +332,13 @@
         if (i != 0) {
             [task setStandardInput:[pipes objectAtIndex:i - 1]];
         }
-        /*
-        if (i == 0) {
-            argument = [NSString stringWithFormat:@"%@ -r \"%@\" -C S:\"%@\" -f \"MAC 10,0,32,18\" -s \"http://live.nicovideo.jp/liveplayer.swf?20100531\" -o %@/%@.flv", self.rtmpdumpPath, [URL objectAtIndex:i], self.TICKET, a_home_dir, lv];
-        }else{
-            argument = [NSString stringWithFormat:@"%@ -r \"%@\" -C S:\"%@\" -f \"MAC 10,0,32,18\" -s \"http://live.nicovideo.jp/liveplayer.swf?20100531\" -o %@/%@_%d.flv", self.rtmpdumpPath,[URL objectAtIndex:i], self.TICKET, a_home_dir, lv, i + 1];
-        }
-         */
-        
+                
         if (i == 0) {
             argument = [NSString stringWithFormat:@"%@ -r \"%@\" -C S:\"%@\" -f \"MAC 10,0,32,18\" -s \"http://live.nicovideo.jp/liveplayer.swf?20100531\" -o %@/%@.flv", rtmpdumpPath, [URL objectAtIndex:i], self.TICKET, a_home_dir, lv];
         }else{
             argument = [NSString stringWithFormat:@"%@ -r \"%@\" -C S:\"%@\" -f \"MAC 10,0,32,18\" -s \"http://live.nicovideo.jp/liveplayer.swf?20100531\" -o %@/%@_%d.flv", rtmpdumpPath, [URL objectAtIndex:i], self.TICKET, a_home_dir, lv, i + 1];
         }
-
+        
         
         NSLog(@"argument : %@", argument);
         [task setArguments: [NSArray arrayWithObjects: @"-c", argument, nil]];
@@ -490,7 +478,7 @@
         case NSStreamEventHasBytesAvailable:
         {
             NSLog(@"NSStreamEventHasBytesAvailable");
-            NSLog(@"----------\n\n\n\n\n\n");
+           // NSLog(@"----------\n\n\n\n\n\n");
             if (dataStream == nil) {
                 dataStream = [[NSMutableData alloc] init];
             }
@@ -600,7 +588,8 @@
             [str release];
             [dataStream release];        
             dataStream = nil;
-        } break;
+            break;
+        }
         case NSStreamEventHasSpaceAvailable:{
             NSLog(@"NSStreamEventHasSpaceAvailable");
             
